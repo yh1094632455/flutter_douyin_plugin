@@ -80,6 +80,11 @@ public class DyUtils {
     }
 
 
+    public void setDouYinOpenApi(Activity activity){
+        if (douYinOpenApi == null) {
+            douYinOpenApi = DouYinOpenApiFactory.create(activity);
+        }
+    }
     /**
      * 获取 access_token
      *

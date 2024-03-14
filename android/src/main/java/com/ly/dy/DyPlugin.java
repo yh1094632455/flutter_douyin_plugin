@@ -51,9 +51,11 @@ public class DyPlugin implements FlutterPlugin, MethodCallHandler, ActivityAware
                 result.success("" + loginResult);
                 break;
             case "shareToEditPage":
+                DyUtils.getInstance().setDouYinOpenApi(activity);
                 shareToDyWithScene(call, result, false);
                 break;
             case "shareToPublishPage":
+                DyUtils.getInstance().setDouYinOpenApi(activity);
                 shareToDyWithScene(call, result, true);
                 break;
             default:
