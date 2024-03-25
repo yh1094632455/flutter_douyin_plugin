@@ -105,13 +105,55 @@ static DyPlugin *instance=nil;
     req.localIdentifiers=tempImgList;
     [req sendShareRequestWithCompleteBlock:^(DouyinOpenSDKShareResponse * _Nonnull Response) {
            NSString *alertString = nil;
-           if (Response.errCode == 0) {
-               alertString = [NSString stringWithFormat:@"Share succeed"];
-           } else{
-               alertString = [NSString stringWithFormat:@"Share failed error code : %@ , error msg : %@", @(Response.errCode), Response.errString];
-           }
-        NSLog(@"进到分享的回调里面了%@",alertString);
+           NSString * code = @"";
+            if(!Response.isSucceed){
+                code = @"-1";
+            }else{
+                code=@"200"
+            }
+            NSDictionary *resultMap = @{@"code":code,@"errorMessage":Response.errString};
+            if (Response.errCode == 0) {
+                alertString = [NSString stringWithFormat:@"Share succeed"];
+            } else{
+                alertString = [NSString stringWithFormat:@"Share failed error code : %@ , error msg : %@", @(Response.errCode), Response.errString];
+            }
+            NSLog(@"进到分享的回调里面了%@",alertString);
        }];
+}
+
+#pragma mark - AppDelegate
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+    [[DouyinOpenSDKApplicationDelegate sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
+    return YES;
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(nonnull NSURL *)url options:(nonnull NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
+
+    if ([[DouyinOpenSDKApplicationDelegate sharedInstance] application:application openURL:url sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey] annotation:options[UIApplicationOpenURLOptionsAnnotationKey]]
+        ) {
+        return YES;
+    }
+
+    return NO;
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+
+    if ([[DouyinOpenSDKApplicationDelegate sharedInstance] application:application openURL:url sourceApplication:sourceApplication annotation:annotation]) {
+        return YES;
+    }
+
+    return NO;
+}
+
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
+{
+    if ([[DouyinOpenSDKApplicationDelegate sharedInstance] application:application openURL:url sourceApplication:nil annotation:nil]) {
+        return YES;
+    }
+    return NO;
 }
 
 @end
