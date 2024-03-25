@@ -23,7 +23,8 @@ static DyPlugin *instance=nil;
 
     DyPlugin*instance=[DyPlugin singleInstace];
     instance.channel=channel;
-  [registrar addMethodCallDelegate:instance channel:channel];
+    [registrar addApplicationDelegate:instance];
+    [registrar addMethodCallDelegate:instance channel:channel];
 }
 
 - (instancetype)initWithViewController:(UIViewController *)viewController {
@@ -109,7 +110,7 @@ static DyPlugin *instance=nil;
             if(!Response.isSucceed){
                 code = @"-1";
             }else{
-                code=@"200"
+                code=@"200";
             }
             NSDictionary *resultMap = @{@"code":code,@"errorMessage":Response.errString};
             if (Response.errCode == 0) {
