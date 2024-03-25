@@ -113,6 +113,7 @@ static DyPlugin *instance=nil;
                 code=@"200";
             }
             NSDictionary *resultMap = @{@"code":code,@"errorMessage":Response.errString};
+            [self->_channel invokeMethod:@"getSharePageResult" arguments:resultMap];
             if (Response.errCode == 0) {
                 alertString = [NSString stringWithFormat:@"Share succeed"];
             } else{
